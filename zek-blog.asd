@@ -8,4 +8,6 @@
   :name "zek-blog"
   :depends-on (:ucw :elephant :clsql)
   :components ((:file "packages")
-	       (:file "models" :depends-on ("packages")))) 
+	       (:file "comment" :depends-on ("packages"))
+	       (:file "blog-post" :depends-on ("comment"))
+	       (:file "models" :depends-on ("blog-post")))) 
