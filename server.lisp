@@ -1,6 +1,6 @@
 (in-package :zek-blog)
 
-(defvar *blog-server* (make-instance 'standard-server 
+(defvar *blog-server* (make-instance 'ucw::standard-server 
 				     :backend (ucw::make-backend :httpd
 								 :host "0.0.0.0"
 								 :port 8080)))

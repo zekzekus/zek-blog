@@ -26,6 +26,9 @@
 (defmethod comments-as-list ((self blog-post))
   (pset-list (blog-post.comments self)))
 
+(defun comment-count (blog-post)
+  (length (comments-as-list blog-post)))
+
 (defun add-post (title body)
   (with-transaction ()
     (unless (post-existp title)
