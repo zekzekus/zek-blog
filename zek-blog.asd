@@ -10,4 +10,6 @@
   :components ((:file "packages")
 	       (:file "comment" :depends-on ("packages"))
 	       (:file "blog-post" :depends-on ("comment"))
-	       (:file "models" :depends-on ("blog-post")))) 
+	       (:file "models" :depends-on ("blog-post"))
+	       (:file "server" :depends-on ("models"))
+	       (:file "layout" :depends-on ("server")))) 
