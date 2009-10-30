@@ -13,8 +13,23 @@
 	 :initarg :body
 	 :initform nil
 	 :type string
-	 :index t))
+	 :index t)
+   (comments :accessor blog-post.comments
+	     :initarg :comments
+	     :initform (make-pset)))
   (:metaclass persistent-metaclass))
+
+(defmethod add-comment ((self blog-post) (comm comment))
+  (insert-item comm (blog-post.comments self)))
+
+(defmethod remove-comment ((self blog-post) (comm comment))
+  (remove-item comm (blog-post.comments self)))
+
+(defmethod map-comments (fn (self blog-post))
+  (map-pset fn (blog-post.comments self)))
+
+(defmethod comments-as-list ((self blog-post))
+  (pset-list (blog-post.comments self)))
 
 (defun add-post (title body)
   (with-transaction ()
@@ -26,3 +41,11 @@
 
 (defun post-existp (title)
   (get-post-by-title title))
+
+(defclass comment ()
+  ((email :accessor comment.email
+	  :initarg :email)
+   (body :accessor comment.body
+	 :initarg :body))
+  (:metaclass persistent-metaclass))
+
