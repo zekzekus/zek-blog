@@ -25,8 +25,20 @@
   (<:a :href "/blog/index.zek" "<<Home")
   (<:h1 (<:as-html (blog-post.title (detail.post self))))
   (<:p (<:as-html (blog-post.body (detail.post self))))
-  (<:h3 "Comments:")
-  (dolist (comment (comments-as-list (detail.post self)))
-    (<:strong (<:as-html (comment.email comment)))
-    (<:p (<:as-html (comment.body comment)))
-    (<:hr)))
+  (<ucw:a :action (edit-blog self) "Edit Post")
+  (when (have-comments? (detail.post self))
+    (<:h3 "Comments:")
+    (dolist (comment (comments-as-list (detail.post self)))
+      (<:strong (<:as-html (comment.email comment)))
+      (<:p (<:as-html (comment.body comment)))
+      (<:hr))))
+
+(defaction edit-blog ((self detail))
+  (call 'edit-form :post (detail.post self)))
+
+(ucw::defcomponent edit-form ()
+  ((post :accessor edit-form.post
+	 :initarg :post)))
+
+(defmethod ucw::render ((self edit-form))
+  (<:a :href "/blog/index.zek" "<<Home"))
