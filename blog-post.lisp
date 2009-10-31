@@ -4,7 +4,7 @@
   ((title :accessor blog-post.title
 	  :initarg :title
 	  :type string
-	  :index t)
+	  :index t)u
    (body :accessor blog-post.body
 	 :initarg :body
 	 :type string
@@ -20,14 +20,22 @@
 (defmethod remove-comment ((self blog-post) (comm comment))
   (remove-item comm (blog-post.comments self)))
 
+(defmethod have-comments? ((self blog-post))
+  (slot-boundp self 'comments))
+
 (defmethod map-comments (fn (self blog-post))
-  (map-pset fn (blog-post.comments self)))
+  (when (have-comments? self)
+    (map-pset fn (blog-post.comments self))))
 
 (defmethod comments-as-list ((self blog-post))
-  (pset-list (blog-post.comments self)))
+  (if (have-comments? self)
+      (pset-list (blog-post.comments self))
+      '()))
 
 (defun comment-count (blog-post)
-  (length (comments-as-list blog-post)))
+  (if (have-comments? blog-post)
+      (length (comments-as-list blog-post))
+      0))
 
 (defun add-post (title body)
   (with-transaction ()
