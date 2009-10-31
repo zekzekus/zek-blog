@@ -4,7 +4,7 @@
   ((title :accessor blog-post.title
 	  :initarg :title
 	  :type string
-	  :index t)u
+	  :index t)
    (body :accessor blog-post.body
 	 :initarg :body
 	 :type string
