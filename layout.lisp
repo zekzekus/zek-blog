@@ -1,11 +1,11 @@
 (in-package :zek-blog)
 
-(ucw::defcomponent summary ()
+(defcomponent summary ()
   ((posts :accessor summary.posts
 	  :initarg :posts
 	  :initform (get-instances-by-class 'blog-post))))
 
-(defmethod ucw::render ((self summary))
+(defmethod render ((self summary))
   (<:h1 "All posts")
   (dolist (post (summary.posts self))
     (<:h2 (<:as-html (blog-post.title post)))
@@ -17,11 +17,11 @@
 (defaction post-detail ((self summary) post)
   (call 'detail :post post))
 
-(ucw::defcomponent detail ()
+(defcomponent detail ()
   ((post :accessor detail.post
 	 :initarg :post)))
 
-(defmethod ucw::render ((self detail))
+(defmethod render ((self detail))
   (<:a :href "/blog/index.zek" "<<Home")
   (<:h1 (<:as-html (blog-post.title (detail.post self))))
   (<:p (<:as-html (blog-post.body (detail.post self))))
@@ -40,15 +40,15 @@
 (defaction comment-add ((self detail))
   (call 'add-comment-form :post (detail.post self)))
 
-(ucw::defcomponent add-comment-form (detail)
+(defcomponent add-comment-form (detail)
   ())
 
-(defmethod ucw::render ((self add-comment-form))
+(defmethod render ((self add-comment-form))
   (<:h1 (<:as-html (blog-post.title (detail.post self)))))
 
-(ucw::defcomponent edit-form ()
+(defcomponent edit-form ()
   ((post :accessor edit-form.post
 	 :initarg :post)))
 
-(defmethod ucw::render ((self edit-form))
+(defmethod render ((self edit-form))
   (<:a :href "/blog/index.zek" "<<Home"))
